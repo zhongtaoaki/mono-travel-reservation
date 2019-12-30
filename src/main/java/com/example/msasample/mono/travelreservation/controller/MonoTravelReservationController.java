@@ -57,7 +57,6 @@ public class MonoTravelReservationController {
 
 		List<Reservation> reservations = new ArrayList<>();
 
-		// TODO call external microservices.
 		applicationInfo.getDesiredFlights().stream().map(f -> {
 			FlightReservationOfFlightMS flightReservationOfFlightMS = flightMicroService.reserve(f.getFlightName(),
 					f.getDepartureDate(), null);
