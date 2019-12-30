@@ -4,95 +4,44 @@ info:
   description: Microservice sample. Monolithic application sample.
   version: '1.0'
 servers:
-- url: http://localhost:11080
+- url: http://localhost:12080
 tags:
-- name: Application
-  description: 旅行申込
-- name: Itinerary
-  description: 予約旅程
+- name: Flight
+  description: フライト予約サービス
 paths:
-  /application:
+  /flight:
     post:
       tags:
-      - Application
-      summary: Resister application.
-      description: Reserve flights and hotels, and resister application and itinerary.
-      operationId: reserve
+      - Flight
+      summary: reserve flight.
+      description: Reserve flights with the information from travel-reservation service.
+      operationId: flight
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ApplicationInfo'
+              $ref: '#/components/schemas/FlightRequest'
       responses:
         200:
           description: Successful response
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: string
+                $ref: '#/components/schemas/FlightReservation'
         409:
           description: No vacancies, or flight seat.
-  /itinerary:
-    get:
-      tags:
-      - Itinerary
-      summary: Get Itinerary.
-      description: Get reserved itinerary information for itinerary id.
-      operationId: getAllItinerary
-      parameters:
-      - $ref: '#/components/parameters/id'
-      responses:
-        200:
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Itinerary'
-        404:
-          description: Not found response
-  /itinerary/getAll:
-    get:
-      tags:
-      - Itinerary
-      summary: Get all Itineraries.
-      description: Get all reserved itinerary informations.
-      operationId: getAllItineraries
-      responses:
-        200:
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Itineraries'
-        404:
-          description: Not found response
 components:
-  parameters:
-    id:
-      name: id
-      in: query
-      description: Itinerary id.
-      schema:
-        type: integer
-        format: int64
   schemas:
-    Itineraries:
-      title: Itineraries
-      type: array
-      items:
-        $ref: '#/components/schemas/Itinerary'
-    Itinerary:
-      title: Itinerary
+    FlightRequest:
+      title: FlightRequest
+      description: the required information to reserve the flight
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          example: 1
-        updatedAt:
+        flightName:
+          type: string
+          example: flightName
+        departureDate:
           type: string
           format: date-time
           example: '2020-01-01T09:00:00+09:00'
@@ -102,18 +51,9 @@ components:
             type: string
             example: Saito
           description: Flights that tourists wants.
-        desiredFlights:
-          type: array
-          items:
-            $ref: '#/components/schemas/FlightReservation'
-          description: Flights that tourists wants.
-        desiredHotels:
-          type: array
-          items:
-            $ref: '#/components/schemas/HotelReservation'
-          description: Hotels that tourists wants.
     FlightReservation:
       title: FlightReservation
+      description: the information details of the reserved flight when success
       type: object
       properties:
         flightReservationId:
@@ -122,7 +62,7 @@ components:
           example: 1
         flightName:
           type: string
-          example: ABC123
+          example: flightName
         departureDateTime:
           type: string
           format: date-time
@@ -140,71 +80,3 @@ components:
         seatNo:
           type: string
           example: 10F
-    HotelReservation:
-      title: HotelReservation
-      type: object
-      properties:
-        hotelReservationId:
-          type: integer
-          format: int64
-          example: 1
-        name:
-          type: string
-          example: Hotel Tokyo
-        checkInDate:
-          type: string
-          format: date
-          example: '2020-01-01'
-        checkOutDate:
-          type: string
-          format: date
-          example: '2020-01-02'
-        roomNo:
-          type: string
-          example: 2401
-    ApplicationInfo:
-      title: ApplicationInfo
-      type: object
-      properties:
-        tourists:
-          type: array
-          items:
-            type: string
-            example: Saito
-          description: Flights that tourists wants.
-        desiredFlights:
-          type: array
-          items:
-            $ref: '#/components/schemas/FlightApplicationInfo'
-          description: Flights that tourists wants.
-        desiredHotels:
-          type: array
-          items:
-            $ref: '#/components/schemas/HotelApplicationInfo'
-          description: Hotels that tourists wants.
-    FlightApplicationInfo:
-      title: FlightApplicationInfo
-      type: object
-      properties:
-        flightName:
-          type: string
-          example: ABC123
-        departureDate:
-          type: string
-          format: date
-          example: '2020-01-01'
-    HotelApplicationInfo:
-      title: HotelApplicationInfo
-      type: object
-      properties:
-        name:
-          type: string
-          example: Hotel Tokyo
-        checkInDate:
-          type: string
-          format: date
-          example: '2020-01-01'
-        checkOutDate:
-          type: string
-          format: date
-          example: '2020-01-02'
