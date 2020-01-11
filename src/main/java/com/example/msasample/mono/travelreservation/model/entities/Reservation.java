@@ -2,6 +2,7 @@ package com.example.msasample.mono.travelreservation.model.entities;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,6 +25,7 @@ public abstract class Reservation {
 	 * 自動採番される。
 	 */
 	@Id
+	@Column(name = "ID", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Setter(AccessLevel.PRIVATE)
 	private Long id;

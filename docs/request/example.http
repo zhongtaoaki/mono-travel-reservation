@@ -1,0 +1,22 @@
+POST http://localhost:10080/application HTTP/1.1
+content-type: application/json
+
+{
+  "tourists": [
+    "Saito"
+  ],
+  "applicant": "Saito",
+  "desiredFlights": [
+    {
+      "flightName": "ANA001",
+      "departureDate": "2020-05-01"
+    }
+  ],
+  "desiredHotels": [
+    {
+      "name": "ホテル大阪",
+      "checkInDate": "2020-05-01",
+      "checkOutDate": "2020-05-02"
+    }
+  ]
+}

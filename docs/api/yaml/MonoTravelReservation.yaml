@@ -4,7 +4,7 @@ info:
   description: Microservice sample. Monolithic application sample.
   version: '1.0'
 servers:
-- url: http://localhost:11080
+- url: http://localhost:10080
 tags:
 - name: Application
   description: 旅行申込
@@ -19,7 +19,11 @@ paths:
       description: Reserve flights and hotels, and resister application and itinerary.
       operationId: reserve
       requestBody:
-      - $ref: '#/components/parameters/ApplicationInfo'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationInfo'
       responses:
         200:
           description: Successful response
@@ -28,7 +32,8 @@ paths:
               schema:
                 type: array
                 items:
-                  type: string
+                  type: integer
+                  format: 64
         409:
           description: No vacancies, or flight seat.
   /itinerary:
@@ -74,10 +79,10 @@ components:
       schema:
         type: integer
         format: int64
+
   schemas:
     Itineraries:
       title: Itineraries
-      type: object
       type: array
       items:
         $ref: '#/components/schemas/Itinerary'
@@ -108,6 +113,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/HotelReservation'
+          description: Hotels that tourists wants.
+    ApplicationInfo:
+      title: ApplicationInfo
+      type: object
+      properties:
+        tourists:
+          type: array
+          items:
+            type: string
+            example: Saito
+          description: Flights that tourists wants.
+        desiredFlights:
+          type: array
+          items:
+            $ref: '#/components/schemas/FlightApplicationInfo'
+          description: Flights that tourists wants.
+        desiredHotels:
+          type: array
+          items:
+            $ref: '#/components/schemas/HotelApplicationInfo'
           description: Hotels that tourists wants.
     FlightReservation:
       title: FlightReservation
@@ -159,26 +184,6 @@ components:
         roomNo:
           type: string
           example: 2401
-    ApplicationInfo:
-      title: ApplicationInfo
-      type: object
-      properties:
-        tourists:
-          type: array
-          items:
-            type: string
-            example: Saito
-          description: Flights that tourists wants.
-        desiredFlights:
-          type: array
-          items:
-            $ref: '#/components/schemas/FlightApplicationInfo'
-          description: Flights that tourists wants.
-        desiredHotels:
-          type: array
-          items:
-            $ref: '#/components/schemas/HotelApplicationInfo'
-          description: Hotels that tourists wants.
     FlightApplicationInfo:
       title: FlightApplicationInfo
       type: object

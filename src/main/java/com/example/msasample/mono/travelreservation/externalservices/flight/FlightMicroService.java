@@ -1,8 +1,6 @@
 package com.example.msasample.mono.travelreservation.externalservices.flight;
 
-import java.time.LocalDate;
-import java.util.List;
-
+import org.springframework.stereotype.Service;
 
 /**
  * フライトマイクロサービス。
@@ -10,7 +8,9 @@ import java.util.List;
  * @author ootsuka
  *
  */
+@Service
 public interface FlightMicroService {
-	FlightReservationOfFlightMS reserve(
-			String flightName, LocalDate departureDate, List<String> tourists);
+
+	FlightReservationOfFlightMS reserve(FlightApplicationInfoOfFlightMS flightApplicationInfoOfFlightMS)
+			throws Exception;
 }

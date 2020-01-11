@@ -1,9 +1,10 @@
 package com.example.msasample.mono.travelreservation.externalservices.hotel;
 
-import java.time.LocalDate;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface HotelMicroService {
-	
-	HotelReservationOfHotelMS reserve(String hotelName, LocalDate checkInDate, LocalDate checkOutDate);
-	
+
+	HotelReservationOfHotelMS reserve(HotelApplicationInfoOfHotelMS hotelApplicationInfoOfHotelMS) throws Exception;
+
 }

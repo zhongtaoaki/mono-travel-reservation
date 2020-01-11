@@ -1,27 +1,33 @@
 package com.example.msasample.mono.travelreservation.externalservices.flight;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.net.URI;
 
-import com.example.msasample.mono.travelreservation.util.DefaultClock;
-import com.example.msasample.mono.travelreservation.util.SpringContext;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
+@Component
 public class FlightMicroServiceImpl implements FlightMicroService {
 
+	@Value(value = "${mono-flight-host}")
+	private String host;
+
+	RestTemplate restTemplate = new RestTemplate();
+
 	@Override
-	public FlightReservationOfFlightMS reserve(
-			String flightName, LocalDate departureDate, List<String> tourists) {
-		
-		return FlightReservationOfFlightMS.builder()
-				.flightName(flightName) //
-				.flightReservationId(1L)
-				.departureDateTime(LocalDateTime.now(SpringContext.getBean(DefaultClock.class).getClock()))
-				.arrivalDateTime(LocalDateTime.now(SpringContext.getBean(DefaultClock.class).getClock()))
-				.arrivalAirport("KIX")
-				.departureAirport("HND")
-				.seatNo("H7")
-				.build();
+	public FlightReservationOfFlightMS reserve(FlightApplicationInfoOfFlightMS requestBody) throws Exception {
+		String uri = host + "/flight";
+		RequestEntity<FlightApplicationInfoOfFlightMS> request = RequestEntity.post(new URI(uri))
+				.accept(MediaType.APPLICATION_JSON).body(requestBody);
+
+		// ホテルサービスと通信する
+		ResponseEntity<FlightReservationOfFlightMS> response = restTemplate.exchange(request,
+				FlightReservationOfFlightMS.class);
+
+		return response.getBody();
 	}
 
 }

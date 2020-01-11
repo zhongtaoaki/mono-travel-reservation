@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  title: MonoTravelReservation API
+  title: MonoFlight API
   description: Microservice sample. Monolithic application sample.
   version: '1.0'
 servers:
@@ -21,7 +21,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FlightRequest'
+              $ref: '#/components/schemas/FlightApplicationInfo'
       responses:
         200:
           description: Successful response
@@ -33,8 +33,8 @@ paths:
           description: No vacancies, or flight seat.
 components:
   schemas:
-    FlightRequest:
-      title: FlightRequest
+    FlightApplicationInfo:
+      title: FlightApplicationInfo
       description: the required information to reserve the flight
       type: object
       properties:
@@ -43,8 +43,8 @@ components:
           example: flightName
         departureDate:
           type: string
-          format: date-time
-          example: '2020-01-01T09:00:00+09:00'
+          format: date
+          example: '2020-01-01'
         tourists:
           type: array
           items:

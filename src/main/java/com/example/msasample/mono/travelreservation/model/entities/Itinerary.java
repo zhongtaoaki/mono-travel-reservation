@@ -50,9 +50,9 @@ public class Itinerary {
 	/**
 	 * 旅行者。
 	 */
-	@ElementCollection
-	private List<String> tourists;
-	
+//	@ElementCollection
+//	private List<String> tourists;
+
 	/**
 	 * 申込者。
 	 */
@@ -64,7 +64,10 @@ public class Itinerary {
 	 * フライト予約、ホテル予約のリスト。
 	 */
 	@ElementCollection
-	private List<Reservation> reservations;
+	private List<HotelReservation> hotelReservations;
+
+	@ElementCollection
+	private List<FlightReservation> flightReservations;
 
 	@PrePersist
 	public void prePersist() {

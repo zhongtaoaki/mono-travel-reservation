@@ -10,3 +10,6 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
+
+mono-hotel-host: http://localhost:11080
+mono-flight-host: http://localhost:12080

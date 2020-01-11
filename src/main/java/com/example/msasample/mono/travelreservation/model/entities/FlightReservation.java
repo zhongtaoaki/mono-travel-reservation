@@ -2,6 +2,8 @@ package com.example.msasample.mono.travelreservation.model.entities;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import lombok.Data;
@@ -20,6 +22,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @Entity
+@AttributeOverride(name = "ID", column = @Column(name = "flight_reservation_id"))
 public class FlightReservation extends Reservation {
 
 	/**

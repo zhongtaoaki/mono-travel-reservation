@@ -1,23 +1,35 @@
 package com.example.msasample.mono.travelreservation.externalservices.hotel;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.net.URI;
 
-import com.example.msasample.mono.travelreservation.util.DefaultClock;
-import com.example.msasample.mono.travelreservation.util.SpringContext;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
+@Component
 public class HotelMicroServiceImpl implements HotelMicroService {
 
-	@Override
-	public HotelReservationOfHotelMS reserve(String hotelName, LocalDate checkInDate, LocalDate checkOutDate) {
+	@Value(value = "${mono-hotel-host}")
+	private String host;
 
-		return HotelReservationOfHotelMS.builder()
-				.hotelReservationId(1L)
-				.name("HOTEL OSAKA")
-				.checkInDateTime(LocalDateTime.now(SpringContext.getBean(DefaultClock.class).getClock()))
-				.checkOutDateTime(LocalDateTime.now(SpringContext.getBean(DefaultClock.class).getClock()))
-				.roomNo("808")
-				.build();
+	RestTemplate restTemplate = new RestTemplate();
+
+	@Override
+	public HotelReservationOfHotelMS reserve(HotelApplicationInfoOfHotelMS requestBody) throws Exception {
+
+		String uri = host + "/hotel";
+
+		RequestEntity<HotelApplicationInfoOfHotelMS> request = RequestEntity.post(new URI(uri))
+				.accept(MediaType.APPLICATION_JSON).body(requestBody);
+
+		// ホテルサービスと通信する
+		ResponseEntity<HotelReservationOfHotelMS> response = restTemplate.exchange(request,
+				HotelReservationOfHotelMS.class);
+
+		return response.getBody();
 	}
 
 }

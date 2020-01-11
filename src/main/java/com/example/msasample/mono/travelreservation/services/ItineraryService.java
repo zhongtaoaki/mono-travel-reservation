@@ -1,4 +1,4 @@
-package com.example.msasample.mono.travelreservation.model.services;
+package com.example.msasample.mono.travelreservation.services;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +13,6 @@ import com.example.msasample.mono.travelreservation.model.entities.HotelReservat
 import com.example.msasample.mono.travelreservation.model.entities.HotelReservationRepository;
 import com.example.msasample.mono.travelreservation.model.entities.Itinerary;
 import com.example.msasample.mono.travelreservation.model.entities.ItineraryRepository;
-import com.example.msasample.mono.travelreservation.model.entities.Reservation;
 
 /**
  * メッセージのサービスクラス。
@@ -41,14 +40,18 @@ public class ItineraryService {
 	 * @return
 	 */
 	@Transactional
-	public Itinerary save(List<String> tourists, List<Reservation> reservations, String applicant) {
-		List<Reservation> savedReservations = reservations.stream().map(this::saveReservation)
+	public Itinerary save(List<String> tourists, List<FlightReservation> flightReservations,
+			List<HotelReservation> hotelReservations, String applicant) {
+		List<FlightReservation> savedFlightReservations = flightReservations.stream().map(this::saveReservation)
+				.collect(Collectors.toList());
+		List<HotelReservation> savedHotelReservations = hotelReservations.stream().map(this::saveReservation)
 				.collect(Collectors.toList());
 
 		Itinerary itinerary = Itinerary.builder() //
-				.tourists(tourists) //
+				// .tourists(tourists) //
 				.applicant(applicant) //
-				.reservations(savedReservations) //
+				.flightReservations(savedFlightReservations) //
+				.hotelReservations(savedHotelReservations) //
 				.build();
 		return itineraryRepository.save(itinerary);
 	}
@@ -59,7 +62,7 @@ public class ItineraryService {
 	 * @param flightReservation フライト予約情報。
 	 * @return 保存済みのフライト予約情報。
 	 */
-	private Reservation saveReservation(FlightReservation flightReservation) {
+	private FlightReservation saveReservation(FlightReservation flightReservation) {
 		return flightReservationRepository.saveAndFlush(flightReservation);
 	}
 
@@ -69,20 +72,20 @@ public class ItineraryService {
 	 * @param hotelReservation ホテル予約情報。
 	 * @return 保存済みのホテル予約情報。
 	 */
-	private Reservation saveReservation(HotelReservation hotelReservation) {
+	private HotelReservation saveReservation(HotelReservation hotelReservation) {
 		return hotelReservationRepository.saveAndFlush(hotelReservation);
 	}
 
-	private Reservation saveReservation(Reservation reservation) {
-		if (reservation instanceof FlightReservation) {
-			return saveReservation((FlightReservation) reservation);
-		}
-		if (reservation instanceof HotelReservation) {
-			return saveReservation((HotelReservation) reservation);
-		}
-		throw new IllegalArgumentException(
-				"reservation is not desired Reservation class. It is " + reservation.getClass().getSimpleName() + ".");
-	}
+//	private Reservation saveReservation(Reservation reservation) {
+//		if (reservation instanceof FlightReservation) {
+//			return saveReservation((FlightReservation) reservation);
+//		}
+//		if (reservation instanceof HotelReservation) {
+//			return saveReservation((HotelReservation) reservation);
+//		}
+//		throw new IllegalArgumentException(
+//				"reservation is not desired Reservation class. It is " + reservation.getClass().getSimpleName() + ".");
+//	}
 
 	/**
 	 * すべてのメッセージを取得する。 <br>
