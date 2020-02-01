@@ -12,5 +12,8 @@ import org.springframework.stereotype.Service;
 public interface FlightMicroService {
 
 	FlightReservationOfFlightMS reserve(FlightApplicationInfoOfFlightMS flightApplicationInfoOfFlightMS)
-			throws Exception;
+			throws RuntimeException;
+
+	void cancelFlight(Long id) throws RuntimeException;
+
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,8 +48,15 @@ public class MonoTravelReservationExceptionHandler {
 
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public Map<String, String> handleExcetion(Exception e) {
+	public Map<String, String> handleExcetion(Exception e, WebRequest webRequest) {
 		log.error("例外発生", e);
+
+		@SuppressWarnings("unchecked")
+		List<Runnable> compensationsList = (List<Runnable>) webRequest.getAttribute("Compensations",
+				WebRequest.SCOPE_SESSION);
+
+		compensationsList.stream().forEach(Runnable::run);
+
 		return Collections.singletonMap("message", e.getMessage());
 	}
 }

@@ -1,6 +1,7 @@
 package com.example.msasample.mono.travelreservation.externalservices.flight;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -18,16 +19,32 @@ public class FlightMicroServiceImpl implements FlightMicroService {
 	RestTemplate restTemplate = new RestTemplate();
 
 	@Override
-	public FlightReservationOfFlightMS reserve(FlightApplicationInfoOfFlightMS requestBody) throws Exception {
+	public FlightReservationOfFlightMS reserve(FlightApplicationInfoOfFlightMS requestBody) throws RuntimeException {
 		String uri = host + "/flight";
-		RequestEntity<FlightApplicationInfoOfFlightMS> request = RequestEntity.post(new URI(uri))
-				.accept(MediaType.APPLICATION_JSON).body(requestBody);
+		RequestEntity<FlightApplicationInfoOfFlightMS> request;
+		try {
+			request = RequestEntity.post(new URI(uri)).accept(MediaType.APPLICATION_JSON).body(requestBody);
+			// ホテルサービスと通信する
+			ResponseEntity<FlightReservationOfFlightMS> response = restTemplate.exchange(request,
+					FlightReservationOfFlightMS.class);
+			return response.getBody();
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
 
-		// ホテルサービスと通信する
-		ResponseEntity<FlightReservationOfFlightMS> response = restTemplate.exchange(request,
-				FlightReservationOfFlightMS.class);
+	}
 
-		return response.getBody();
+	@Override
+	public void cancelFlight(Long id) throws RuntimeException {
+		String uri = host + "/flight/" + id;
+		RequestEntity<Void> request;
+		try {
+			request = RequestEntity.delete(new URI(uri)).build();
+			// ホテルサービスと通信する
+			restTemplate.exchange(request, Void.class);
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

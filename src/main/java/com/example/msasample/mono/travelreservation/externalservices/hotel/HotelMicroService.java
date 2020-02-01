@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 @Service
 public interface HotelMicroService {
 
-	HotelReservationOfHotelMS reserve(HotelApplicationInfoOfHotelMS hotelApplicationInfoOfHotelMS) throws Exception;
+	HotelReservationOfHotelMS reserve(HotelApplicationInfoOfHotelMS hotelApplicationInfoOfHotelMS)
+			throws RuntimeException;
+
+	void cancelHotel(Long id) throws RuntimeException;
 
 }
