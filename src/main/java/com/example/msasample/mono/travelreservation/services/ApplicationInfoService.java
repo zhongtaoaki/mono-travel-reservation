@@ -31,8 +31,8 @@ public class ApplicationInfoService {
 	@Transactional
 	public ApplicationInfo save(ApplicationInfo applicationInfo) {
 
-		applicationInfo.getDesiredFlights().forEach(f -> flightApplicationInfoRepository.save(f));
-		applicationInfo.getDesiredHotels().forEach(h -> hotelApplicationInfoRepository.save(h));
+		applicationInfo.getFlightReservationOfFlightMSs().forEach(f -> flightApplicationInfoRepository.save(f));
+		applicationInfo.getHotelReservationOfHotelMSs().forEach(h -> hotelApplicationInfoRepository.save(h));
 
 		return applicationInfoRepository.save(applicationInfo);
 	}

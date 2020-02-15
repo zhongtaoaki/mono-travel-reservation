@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.example.msasample.mono.travelreservation.externalservices.flight.FlightReservationOfFlightMS;
+import com.example.msasample.mono.travelreservation.externalservices.hotel.HotelReservationOfHotelMS;
+
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -50,17 +53,9 @@ public class ApplicationInfo {
 	@NotNull
 	private String applicant;
 
-	/**
-	 * フライト申込情報。
-	 */
-	@NotEmpty
-	@ElementCollection
-	private List<FlightApplicationInfo> desiredFlights;
-
-	/**
-	 * ホテル申込情報。
-	 */
-	@NotEmpty
-	@ElementCollection
-	private List<HotelApplicationInfo> desiredHotels;
+	private List<FlightReservationOfFlightMS> flightReservationOfFlightMSs;
+	
+	private List<HotelReservationOfHotelMS> hotelReservationOfHotelMSs;
+	
+	
 }

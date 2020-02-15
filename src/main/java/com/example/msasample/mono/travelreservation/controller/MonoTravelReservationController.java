@@ -11,12 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.msasample.mono.travelreservation.externalservices.flight.FlightApplicationInfoOfFlightMS;
-import com.example.msasample.mono.travelreservation.externalservices.flight.FlightMicroService;
-import com.example.msasample.mono.travelreservation.externalservices.flight.FlightReservationOfFlightMS;
-import com.example.msasample.mono.travelreservation.externalservices.hotel.HotelApplicationInfoOfHotelMS;
-import com.example.msasample.mono.travelreservation.externalservices.hotel.HotelMicroService;
-import com.example.msasample.mono.travelreservation.externalservices.hotel.HotelReservationOfHotelMS;
 import com.example.msasample.mono.travelreservation.model.entities.ApplicationInfo;
 import com.example.msasample.mono.travelreservation.model.entities.FlightReservation;
 import com.example.msasample.mono.travelreservation.model.entities.HotelReservation;
@@ -39,12 +33,6 @@ public class MonoTravelReservationController {
 	@Autowired
 	private ApplicationInfoService applicationInfoService;
 
-	@Autowired
-	private FlightMicroService flightMicroService;
-
-	@Autowired
-	private HotelMicroService hotelMicroService;
-
 	/**
 	 * 予約を行う。
 	 * 
@@ -59,37 +47,49 @@ public class MonoTravelReservationController {
 		List<HotelReservation> hotelReservations = new ArrayList<>();
 
 		// フライト予約情報を取得する
-		applicationInfo.getDesiredFlights().stream().map(f -> {
-			FlightApplicationInfoOfFlightMS flightApplicationInfoOfFlightMS = FlightApplicationInfoOfFlightMS.builder()//
-					.flightName(f.getFlightName())//
-					.departureDate(f.getDepartureDate())//
-					.build();
-			FlightReservationOfFlightMS flightReservationOfFlightMS = null;
-			try {
-				flightReservationOfFlightMS = flightMicroService.reserve(flightApplicationInfoOfFlightMS);
-			} catch (Exception e) {
-				e.printStackTrace();// TODO
-			}
+//		applicationInfo.getDesiredFlights().stream().map(f -> {
+//			FlightApplicationInfoOfFlightMS flightApplicationInfoOfFlightMS = FlightApplicationInfoOfFlightMS.builder()//
+//					.flightName(f.getFlightName())//
+//					.departureDate(f.getDepartureDate())//
+//					.build();
+//			FlightReservationOfFlightMS flightReservationOfFlightMS = null;
+//			try {
+//				flightReservationOfFlightMS = flightMicroService.reserve(flightApplicationInfoOfFlightMS);
+//			} catch (Exception e) {
+//				e.printStackTrace();// TODO
+//			}
+//			FlightReservation flightReservation = new FlightReservation();
+//			BeanUtils.copyProperties(flightReservationOfFlightMS, flightReservation);
+//			return flightReservation;
+//		}).forEach(flightReservations::add);
+//		
+		applicationInfo.getFlightReservationOfFlightMSs().stream().map(f -> {
 			FlightReservation flightReservation = new FlightReservation();
-			BeanUtils.copyProperties(flightReservationOfFlightMS, flightReservation);
+			BeanUtils.copyProperties(f, flightReservation);
 			return flightReservation;
 		}).forEach(flightReservations::add);
 
 		// ホテル予約情報を取得する
-		applicationInfo.getDesiredHotels().stream().map(h -> {
-			HotelApplicationInfoOfHotelMS hotelApplicationInfoOfHotelMS = HotelApplicationInfoOfHotelMS.builder()
-					.name(h.getName())//
-					.checkInDate(h.getCheckInDate())//
-					.checkOutDate(h.getCheckOutDate())//
-					.build();
-			HotelReservationOfHotelMS hotelReservationOfHotelMS = null;
-			try {
-				hotelReservationOfHotelMS = hotelMicroService.reserve(hotelApplicationInfoOfHotelMS);
-			} catch (Exception e) {
-				e.printStackTrace();// TODO
-			}
+//		applicationInfo.getDesiredHotels().stream().map(h -> {
+//			HotelApplicationInfoOfHotelMS hotelApplicationInfoOfHotelMS = HotelApplicationInfoOfHotelMS.builder()
+//					.name(h.getName())//
+//					.checkInDate(h.getCheckInDate())//
+//					.checkOutDate(h.getCheckOutDate())//
+//					.build();
+//			HotelReservationOfHotelMS hotelReservationOfHotelMS = null;
+//			try {
+//				hotelReservationOfHotelMS = hotelMicroService.reserve(hotelApplicationInfoOfHotelMS);
+//			} catch (Exception e) {
+//				e.printStackTrace();// TODO
+//			}
+//			HotelReservation hotelReservation = new HotelReservation();
+//			BeanUtils.copyProperties(hotelReservationOfHotelMS, hotelReservation);
+//			return hotelReservation;
+//		}).forEach(hotelReservations::add);
+		
+		applicationInfo.getHotelReservationOfHotelMSs().stream().map(h -> {
 			HotelReservation hotelReservation = new HotelReservation();
-			BeanUtils.copyProperties(hotelReservationOfHotelMS, hotelReservation);
+			BeanUtils.copyProperties(h, hotelReservation);
 			return hotelReservation;
 		}).forEach(hotelReservations::add);
 

@@ -3,6 +3,8 @@ package com.example.msasample.mono.travelreservation.model.entities;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.example.msasample.mono.travelreservation.externalservices.hotel.HotelReservationOfHotelMS;
+
 /**
  * ホテル申込用リポジトリ。
  * 
@@ -10,6 +12,6 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public interface HotelApplicationInfoRepository extends JpaRepository<HotelApplicationInfo, Long> {
+public interface HotelApplicationInfoRepository extends JpaRepository<HotelReservationOfHotelMS, Long> {
 
 }
