@@ -120,8 +120,3 @@ ssh-keygen -y -f /キーペア.pemファイルのパス/キーペア名前.pem
    ```sh
    kubectl get svc
    ```
-
-   
-
-## ALB作成
-
