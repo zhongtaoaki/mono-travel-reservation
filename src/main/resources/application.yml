@@ -1,5 +1,5 @@
 server:
-  port: 10080
+  port: 8080
 spring:
   datasource:
     url: jdbc:h2:mem:samplemsadb
@@ -17,5 +17,5 @@ logging:
         SQL: debug
       
 
-mono-hotel-host: http://localhost:11080
-mono-flight-host: http://localhost:12080
+mono-hotel-host: http://mono-hotel
+mono-flight-host: http://mono-flight
