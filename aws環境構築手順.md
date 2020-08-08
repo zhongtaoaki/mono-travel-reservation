@@ -100,8 +100,8 @@ ssh-keygen -y -f /キーペア.pemファイルのパス/キーペア名前.pem
    --region ap-northeast-1 \
    --nodegroup-name standard-workers \
    --node-type t2.micro \
-   --nodes 3\
-   --nodes-min 1 \
+   --nodes 3 \
+   --nodes-min 3 \
    --nodes-max 4 \
    --ssh-access \
    --ssh-public-key 作成した公開キー \
