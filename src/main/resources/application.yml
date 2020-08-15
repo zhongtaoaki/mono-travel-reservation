@@ -17,5 +17,5 @@ logging:
         SQL: debug
       
 
-mono-hotel-host: http://mono-hotel
-mono-flight-host: http://mono-flight
+mono-hotel-host: http://hotel
+mono-flight-host: http://flight

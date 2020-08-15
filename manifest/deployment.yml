@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reservation
+  labels:
+    app: reservation
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: reservation
+  template:
+    metadata:
+      labels:
+        app: reservation
+    spec:
+      containers:
+      - name: reservation
+        image: 「ECRに実際に存在するイメージID」
+        ports:
+        - containerPort: 8080
