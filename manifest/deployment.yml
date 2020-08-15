@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: reservation
-        image: 「ECRに実際に存在するイメージID」
+        image: 「ECRに実際に存在するイメージのURI」
         ports:
         - containerPort: 8080
